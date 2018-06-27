@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTennisTable-CSharp", "TableTennisTable-CSharp\TableTennisTable-CSharp.csproj", "{9CD28398-C7E2-40F9-B8B5-88F430842C54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTennisTable-Tests", "TableTennisTable-Tests\TableTennisTable-Tests.csproj", "{5F3E1A4D-5676-4EEF-859F-5CC92C0FD695}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9CD28398-C7E2-40F9-B8B5-88F430842C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CD28398-C7E2-40F9-B8B5-88F430842C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CD28398-C7E2-40F9-B8B5-88F430842C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F3E1A4D-5676-4EEF-859F-5CC92C0FD695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3E1A4D-5676-4EEF-859F-5CC92C0FD695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3E1A4D-5676-4EEF-859F-5CC92C0FD695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3E1A4D-5676-4EEF-859F-5CC92C0FD695}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
