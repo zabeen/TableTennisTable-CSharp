@@ -5,10 +5,14 @@ namespace TableTennisTable_CSharp
     public class App
     {
         private League _league;
+        private ILeagueRenderer _leagueRenderer;
+        private IFileService _fileService;
 
-        public App(League initialLeague)
+        public App(League initialLeague, ILeagueRenderer leagueRenderer, IFileService fileService)
         {
             _league = initialLeague;
+            _leagueRenderer = leagueRenderer;
+            _fileService = fileService;
         }
 
         public string SendCommand(string command)
@@ -34,12 +38,26 @@ namespace TableTennisTable_CSharp
 
                 if (command == "print")
                 {
-                    return LeagueRenderer.Render(_league);
+                    return _leagueRenderer.Render(_league);
                 }
 
                 if (command == "winner")
                 {
                     return _league.GetWinner();
+                }
+
+                if (command.StartsWith("save"))
+                {
+                    var name = command.Substring(5);
+                    _fileService.Save(name, _league);
+                    return $"Saved {name}";
+                }
+
+                if (command.StartsWith("load"))
+                {
+                    var name = command.Substring(5);
+                    _league = _fileService.Load(name);
+                    return $"Loaded {name}";
                 }
 
                 return $"Unknown command: {command}";

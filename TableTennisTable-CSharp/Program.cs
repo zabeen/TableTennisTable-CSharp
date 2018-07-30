@@ -9,7 +9,9 @@ namespace TableTennisTable_CSharp
             Console.WriteLine("Welcome to the table tennis table");
 
             var league = new League();
-            var game = new App(league);
+            var leagueRenderer = new LeagueRenderer();
+            var fileService = new FileService();
+            var game = new App(league, leagueRenderer, fileService);
 
             bool isGameActive = true;
 

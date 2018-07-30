@@ -9,9 +9,11 @@ namespace TableTennisTable_CSharp
     {
         private List<LeagueRow> _rows;
 
-        public League()
+        public League() : this(new List<LeagueRow>()) {}
+
+        internal League(List<LeagueRow> rows)
         {
-            _rows = new List<LeagueRow>();
+            _rows = rows;
         }
 
         private Regex _validNameRegex = new Regex("^\\w+$");

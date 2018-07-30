@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="FileService.cs" />
     <Compile Include="League.cs" />
     <Compile Include="LeagueRenderer.cs" />
     <Compile Include="LeagueRow.cs" />

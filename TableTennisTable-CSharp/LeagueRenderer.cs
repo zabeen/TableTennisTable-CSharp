@@ -1,16 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace TableTennisTable_CSharp
 {
-    public static class LeagueRenderer
+    public interface ILeagueRenderer
+    {
+        string Render(League league);
+    }
+
+    public class LeagueRenderer : ILeagueRenderer
     {
         private const int MaxNameLength = 17;
         private const int BoxWidth = MaxNameLength + 2;
         private static readonly string Boundary = new string('-', BoxWidth);
         private static readonly string EmptyName = $"|{new string(' ', MaxNameLength)}|";
 
-        public static string Render(League league)
+        public string Render(League league)
         {
             var rows = league.GetRows();
 
@@ -24,7 +28,7 @@ namespace TableTennisTable_CSharp
             return string.Join("\n", renderedRows);
         }
 
-        private static string RenderRow(LeagueRow row, int rowIndex, int totalRows)
+        private string RenderRow(LeagueRow row, int rowIndex, int totalRows)
         {
             string rowBoundary = string.Join(" ", Enumerable.Repeat(Boundary, row.GetMaxSize()));
             var formattedNames = row.GetPlayers().Select(name => $"|{FormatName(name)}|").ToList();
@@ -37,7 +41,7 @@ namespace TableTennisTable_CSharp
             return $"{padding}{rowBoundary}\n{padding}{allNames}\n{padding}{rowBoundary}";
         }
 
-        private static string FormatName(string name)
+        private string FormatName(string name)
         {
             if (name.Length > MaxNameLength)
             {
