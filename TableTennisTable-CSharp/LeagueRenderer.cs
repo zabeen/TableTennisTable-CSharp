@@ -25,7 +25,7 @@ namespace TableTennisTable_CSharp
 
             var renderedRows = rows.Select((row, index) => RenderRow(row, index, rows.Count));
 
-            return string.Join("\n", renderedRows);
+            return string.Join("\r\n", renderedRows);
         }
 
         private string RenderRow(LeagueRow row, int rowIndex, int totalRows)
@@ -38,7 +38,7 @@ namespace TableTennisTable_CSharp
             var emptyNames = Enumerable.Repeat(EmptyName, row.GetMaxSize() - formattedNames.Count);
             var allNames = string.Join(" ", formattedNames.Concat(emptyNames));
 
-            return $"{padding}{rowBoundary}\n{padding}{allNames}\n{padding}{rowBoundary}";
+            return $"{padding}{rowBoundary}\r\n{padding}{allNames}\r\n{padding}{rowBoundary}";
         }
 
         private string FormatName(string name)

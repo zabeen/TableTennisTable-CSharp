@@ -22,6 +22,10 @@ namespace TableTennisTable_CSharp
             {
                 throw new ArgumentException($"Could not load league {path}", e);
             }
+            catch (InvalidOperationException e)
+            {
+                throw new ArgumentException($"League {path} was not valid");
+            }
         }
 
         private LeagueRow deserialiseRow(string line, int index)
@@ -42,7 +46,7 @@ namespace TableTennisTable_CSharp
             }
             catch (IOException e)
             {
-                throw new ArgumentException($"Could not load league {path}", e);
+                throw new ArgumentException($"Could not save league {path}", e);
             }
         }
 

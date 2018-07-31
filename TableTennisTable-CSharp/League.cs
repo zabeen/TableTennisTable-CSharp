@@ -9,9 +9,11 @@ namespace TableTennisTable_CSharp
     {
         private List<LeagueRow> _rows;
 
-        public League() : this(new List<LeagueRow>()) {}
+        public League() : this(new List<LeagueRow>())
+        {
+        }
 
-        internal League(List<LeagueRow> rows)
+        public League(List<LeagueRow> rows)
         {
             _rows = rows;
         }

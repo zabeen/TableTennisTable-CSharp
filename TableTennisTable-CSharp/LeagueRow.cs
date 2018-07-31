@@ -39,6 +39,10 @@ namespace TableTennisTable_CSharp
 
         public void Add(string player)
         {
+            if (IsFull())
+            {
+                throw new InvalidOperationException("Row is full");
+            }
             _players.Add(player);
         }
 
