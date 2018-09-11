@@ -24,7 +24,7 @@ namespace TableTennisTable_CSharp
             }
             catch (InvalidOperationException e)
             {
-                throw new ArgumentException($"League {path} was not valid");
+                throw new ArgumentException($"League {path} was not valid", e);
             }
         }
 

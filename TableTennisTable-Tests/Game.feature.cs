@@ -105,6 +105,183 @@ namespace TableTennisTable_Tests
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Adding Players")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Game")]
+        public virtual void AddingPlayers()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding Players", null, ((string[])(null)));
+#line 8
+    this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Player"});
+            table1.AddRow(new string[] {
+                        "Alice"});
+            table1.AddRow(new string[] {
+                        "Bob"});
+            table1.AddRow(new string[] {
+                        "Charles"});
+            table1.AddRow(new string[] {
+                        "Dana"});
+#line 9
+        testRunner.Given("the league has players", ((string)(null)), table1, "Given ");
+#line 15
+        testRunner.When("I print the league", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+        testRunner.Then("I should see \"Alice\" in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+        testRunner.And("I should see \"Bob\" in row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+        testRunner.And("I should see \"Charles\" in row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+        testRunner.And("I should see \"Dana\" in row 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Find the winner")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Game")]
+        public virtual void FindTheWinner()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Find the winner", null, ((string[])(null)));
+#line 21
+    this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Player"});
+            table2.AddRow(new string[] {
+                        "Alice"});
+            table2.AddRow(new string[] {
+                        "Bob"});
+            table2.AddRow(new string[] {
+                        "Charles"});
+            table2.AddRow(new string[] {
+                        "Dana"});
+#line 22
+        testRunner.Given("the league has players", ((string)(null)), table2, "Given ");
+#line 28
+        testRunner.When("I check the winner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+        testRunner.Then("I should see \"Alice\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Record a win")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Game")]
+        public virtual void RecordAWin()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Record a win", null, ((string[])(null)));
+#line 31
+    this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Player"});
+            table3.AddRow(new string[] {
+                        "Alice"});
+            table3.AddRow(new string[] {
+                        "Bob"});
+            table3.AddRow(new string[] {
+                        "Charles"});
+#line 32
+        testRunner.Given("the league has players", ((string)(null)), table3, "Given ");
+#line 37
+        testRunner.When("\"Charles\" wins a game against \"Alice\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 38
+        testRunner.And("I print the league", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+        testRunner.Then("I should see \"Charles\" in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 40
+        testRunner.And("I should see \"Alice\" in row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Illegal win")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Game")]
+        public virtual void IllegalWin()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Illegal win", null, ((string[])(null)));
+#line 42
+    this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Player"});
+            table4.AddRow(new string[] {
+                        "Alice"});
+            table4.AddRow(new string[] {
+                        "Bob"});
+            table4.AddRow(new string[] {
+                        "Charles"});
+            table4.AddRow(new string[] {
+                        "Dana"});
+#line 43
+        testRunner.Given("the league has players", ((string)(null)), table4, "Given ");
+#line 49
+        testRunner.When("\"Dana\" wins a game against \"Alice\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 50
+        testRunner.Then("I should see \"Cannot record match result. Winner Dana must be one row below loser" +
+                    " Alice\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 51
+        testRunner.When("I print the league", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 52
+        testRunner.Then("I should see \"Alice\" in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 53
+        testRunner.And("I should see \"Dana\" in row 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Save and Load")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Game")]
+        public virtual void SaveAndLoad()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save and Load", null, ((string[])(null)));
+#line 55
+    this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Player"});
+            table5.AddRow(new string[] {
+                        "Alice"});
+            table5.AddRow(new string[] {
+                        "Bob"});
+            table5.AddRow(new string[] {
+                        "Charles"});
+            table5.AddRow(new string[] {
+                        "Dana"});
+#line 56
+        testRunner.Given("the league has players", ((string)(null)), table5, "Given ");
+#line 62
+        testRunner.When("I save the game to \"my_save\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 63
+        testRunner.And("I reset the game", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 64
+        testRunner.And("I load the game from \"my_save\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 65
+        testRunner.And("I print the league", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 66
+        testRunner.Then("I should see \"Alice\" in row 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 67
+        testRunner.And("I should see \"Bob\" in row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 68
+        testRunner.And("I should see \"Charles\" in row 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 69
+        testRunner.And("I should see \"Dana\" in row 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
