@@ -8,19 +8,37 @@ namespace TableTennisTable_Tests
     public class LeagueTests
     {
         [TestMethod]
-        public void TestAddPlayer()
+        public void EmptyLeague_AddPlayer_RowCountOne()
         {
-            // Given
-            League league = new League();
+            var league = new League();
 
-            // When
             league.AddPlayer("Bob");
 
-            // Then
             var rows = league.GetRows();
             Assert.AreEqual(1, rows.Count);
+        }
+
+        [TestMethod]
+        public void EmptyLeague_AddPlayer_OnePlayerInFirstRow()
+        {
+            var league = new League();
+
+            league.AddPlayer("Bob");
+
+            var rows = league.GetRows();
             var firstRowPlayers = rows.First().GetPlayers();
             Assert.AreEqual(1, firstRowPlayers.Count);
+        }
+
+        [TestMethod]
+        public void EmptyLeague_AddPlayer_FirstRowContainsPlayerName()
+        {
+            var league = new League();
+
+            league.AddPlayer("Bob");
+
+            var rows = league.GetRows();
+            var firstRowPlayers = rows.First().GetPlayers();
             CollectionAssert.Contains(firstRowPlayers, "Bob");
         }
     }
