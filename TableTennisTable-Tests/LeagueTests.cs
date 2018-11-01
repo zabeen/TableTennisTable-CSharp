@@ -59,5 +59,67 @@ namespace TableTennisTable_Tests
             var firstRowPlayers = rows.First().GetPlayers();
             CollectionAssert.Contains(firstRowPlayers, playerName);
         }
+
+        [TestMethod]
+        public void LeagueWithAllRowsFull_AddPlayer_NewRowAdded()
+        {
+            var league = new League();
+            const string existingPlayer = "existingPlayer";
+            league.AddPlayer(existingPlayer);
+            var existingRowCount = league.GetRows().Count;
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var newRowCount = league.GetRows().Count;
+            Assert.AreEqual(existingRowCount + 1, newRowCount);
+        }
+
+        [TestMethod]
+        public void LeagueWithAllRowsFull_AddPlayer_OnePlayerInLastRow()
+        {
+            var league = new League();
+            const string existingPlayer = "existingPlayer";
+            league.AddPlayer(existingPlayer);
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var rows = league.GetRows();
+            var lastRowPlayers = rows.Last().GetPlayers();
+            Assert.AreEqual(1, lastRowPlayers.Count);
+        }
+
+        [TestMethod]
+        public void LeagueWithAllRowsFull_AddPlayer_LastRowContainsPlayerName()
+        {
+            var league = new League();
+            const string existingPlayer = "existingPlayer";
+            league.AddPlayer(existingPlayer);
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var rows = league.GetRows();
+            var lastRowPlayers = rows.Last().GetPlayers();
+            CollectionAssert.Contains(lastRowPlayers, newPlayer);
+        }
+
+        [DataRow("player1")]
+        [DataRow("player2")]
+        [DataRow("player3")]
+        [DataRow("player4")]
+        [DataTestMethod]
+        public void LeagueWithPlayers_AddPlayerWithNonUniqueName_ExceptionThrown(string nonUniquePlayerName)
+        {
+            var league = new League();
+            var existingPlayers = new[] { "player1", "player2", "player3", "player4" };
+            foreach (var existingPlayer in existingPlayers)
+            {
+                league.AddPlayer(existingPlayer);
+            }
+
+            Assert.ThrowsException<ArgumentException>(() => league.AddPlayer(nonUniquePlayerName));
+        }
     }
 }
