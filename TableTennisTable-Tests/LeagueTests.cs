@@ -66,17 +66,17 @@ namespace TableTennisTable_Tests
             var league = new League();
             const string existingPlayer = "existingPlayer";
             league.AddPlayer(existingPlayer);
-            var existingRowCount = league.GetRows().Count;
+            var oldRowCount = league.GetRows().Count;
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
 
             var newRowCount = league.GetRows().Count;
-            Assert.AreEqual(existingRowCount + 1, newRowCount);
+            Assert.AreEqual(oldRowCount + 1, newRowCount);
         }
 
         [TestMethod]
-        public void LeagueWithAllRowsFull_AddPlayer_OnePlayerInLastRow()
+        public void LeagueWithAllRowsFull_AddPlayer_OnePlayerInBottomRow()
         {
             var league = new League();
             const string existingPlayer = "existingPlayer";
@@ -86,12 +86,12 @@ namespace TableTennisTable_Tests
             league.AddPlayer(newPlayer);
 
             var rows = league.GetRows();
-            var lastRowPlayers = rows.Last().GetPlayers();
-            Assert.AreEqual(1, lastRowPlayers.Count);
+            var bottomRowPlayers = rows.Last().GetPlayers();
+            Assert.AreEqual(1, bottomRowPlayers.Count);
         }
 
         [TestMethod]
-        public void LeagueWithAllRowsFull_AddPlayer_LastRowContainsPlayerName()
+        public void LeagueWithAllRowsFull_AddPlayer_BottomRowContainsPlayerName()
         {
             var league = new League();
             const string existingPlayer = "existingPlayer";
@@ -100,9 +100,62 @@ namespace TableTennisTable_Tests
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
 
-            var rows = league.GetRows();
-            var lastRowPlayers = rows.Last().GetPlayers();
-            CollectionAssert.Contains(lastRowPlayers, newPlayer);
+            var bottomRow = league.GetRows().Last();
+            var bottomRowPlayers = bottomRow.GetPlayers();
+            CollectionAssert.Contains(bottomRowPlayers, newPlayer);
+        }
+
+        [TestMethod]
+        public void LeagueWithIncompleteBottomRow_AddPlayer_RowCountDoesNotChange()
+        {
+            var league = new League();
+            const string existingPlayer1 = "existingPlayer1";
+            const string existingPlayer2 = "existingPlayer2";
+            league.AddPlayer(existingPlayer1);
+            league.AddPlayer(existingPlayer2);
+            var oldRowCount = league.GetRows().Count;
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var newRowCount = league.GetRows().Count;
+            Assert.AreEqual(oldRowCount, newRowCount);
+        }
+
+        [TestMethod]
+        public void LeagueWithIncompleteBottomRow_AddPlayer_PlayerCountInBottomRowIncreasedByOne()
+        {
+            var league = new League();
+            const string existingPlayer1 = "existingPlayer1";
+            const string existingPlayer2 = "existingPlayer2";
+            league.AddPlayer(existingPlayer1);
+            league.AddPlayer(existingPlayer2);
+            var bottomRow = league.GetRows().Last();
+            var oldPlayerCount = bottomRow.GetPlayers().Count;
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var updatedLastRow = league.GetRows().Last();
+            var newPlayerCount = updatedLastRow.GetPlayers().Count;
+            Assert.AreEqual(oldPlayerCount + 1, newPlayerCount);
+        }
+
+        [TestMethod]
+        public void LeagueWithIncompleteBottomRow_AddPlayer_BottomRowContainsPlayerName()
+        {
+            var league = new League();
+            const string existingPlayer1 = "existingPlayer1";
+            const string existingPlayer2 = "existingPlayer2";
+            league.AddPlayer(existingPlayer1);
+            league.AddPlayer(existingPlayer2);
+
+            const string newPlayer = "newPlayer";
+            league.AddPlayer(newPlayer);
+
+            var bottomRow = league.GetRows().Last();
+            var bottomRowPlayers = bottomRow.GetPlayers();
+            CollectionAssert.Contains(bottomRowPlayers, newPlayer);
         }
 
         [DataRow("player1")]
