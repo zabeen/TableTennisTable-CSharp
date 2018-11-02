@@ -64,10 +64,12 @@ namespace TableTennisTable_Tests
         [TestMethod]
         public void LeagueWithAllRowsFull_AddPlayer_NewRowAdded()
         {
-            var league = new League();
+            var fullRow = new LeagueRow(1);
             const string existingPlayer = "existingPlayer";
-            league.AddPlayer(existingPlayer);
-            var oldRowCount = league.GetRows().Count;
+            fullRow.Add(existingPlayer);
+            var fullRows = new List<LeagueRow> {fullRow};
+            var league = new League(fullRows);
+            var oldRowCount = fullRows.Count;
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
@@ -79,24 +81,28 @@ namespace TableTennisTable_Tests
         [TestMethod]
         public void LeagueWithAllRowsFull_AddPlayer_OnePlayerInBottomRow()
         {
-            var league = new League();
+            var fullRow = new LeagueRow(1);
             const string existingPlayer = "existingPlayer";
-            league.AddPlayer(existingPlayer);
+            fullRow.Add(existingPlayer);
+            var fullRows = new List<LeagueRow> { fullRow };
+            var league = new League(fullRows);
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
 
-            var rows = league.GetRows();
-            var bottomRowPlayers = rows.Last().GetPlayers();
+            var bottomRow = league.GetRows().Last();
+            var bottomRowPlayers = bottomRow.GetPlayers();
             Assert.AreEqual(1, bottomRowPlayers.Count);
         }
 
         [TestMethod]
         public void LeagueWithAllRowsFull_AddPlayer_BottomRowContainsPlayerName()
         {
-            var league = new League();
+            var fullRow = new LeagueRow(1);
             const string existingPlayer = "existingPlayer";
-            league.AddPlayer(existingPlayer);
+            fullRow.Add(existingPlayer);
+            var fullRows = new List<LeagueRow> { fullRow };
+            var league = new League(fullRows);
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
@@ -109,12 +115,17 @@ namespace TableTennisTable_Tests
         [TestMethod]
         public void LeagueWithIncompleteBottomRow_AddPlayer_RowCountDoesNotChange()
         {
-            var league = new League();
             const string existingPlayer1 = "existingPlayer1";
+            var fullRow = new LeagueRow(1);
+            fullRow.Add(existingPlayer1);
+
             const string existingPlayer2 = "existingPlayer2";
-            league.AddPlayer(existingPlayer1);
-            league.AddPlayer(existingPlayer2);
-            var oldRowCount = league.GetRows().Count;
+            var incompleteRow = new LeagueRow(2);
+            incompleteRow.Add(existingPlayer2);
+
+            var rows = new List<LeagueRow> { fullRow, incompleteRow };
+            var league = new League(rows);
+            var oldRowCount = rows.Count;
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
@@ -126,17 +137,21 @@ namespace TableTennisTable_Tests
         [TestMethod]
         public void LeagueWithIncompleteBottomRow_AddPlayer_PlayerCountInBottomRowIncreasedByOne()
         {
-            var league = new League();
             const string existingPlayer1 = "existingPlayer1";
+            var fullRow = new LeagueRow(1);
+            fullRow.Add(existingPlayer1);
+
             const string existingPlayer2 = "existingPlayer2";
-            league.AddPlayer(existingPlayer1);
-            league.AddPlayer(existingPlayer2);
-            var bottomRow = league.GetRows().Last();
-            var oldPlayerCount = bottomRow.GetPlayers().Count;
+            var incompleteRow = new LeagueRow(2);
+            incompleteRow.Add(existingPlayer2);
+            var oldPlayerCount = incompleteRow.GetPlayers().Count;
+
+            var rows = new List<LeagueRow> { fullRow, incompleteRow };
+            var league = new League(rows);
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
-
+            
             var updatedLastRow = league.GetRows().Last();
             var newPlayerCount = updatedLastRow.GetPlayers().Count;
             Assert.AreEqual(oldPlayerCount + 1, newPlayerCount);
@@ -145,11 +160,16 @@ namespace TableTennisTable_Tests
         [TestMethod]
         public void LeagueWithIncompleteBottomRow_AddPlayer_BottomRowContainsPlayerName()
         {
-            var league = new League();
             const string existingPlayer1 = "existingPlayer1";
+            var fullRow = new LeagueRow(1);
+            fullRow.Add(existingPlayer1);
+
             const string existingPlayer2 = "existingPlayer2";
-            league.AddPlayer(existingPlayer1);
-            league.AddPlayer(existingPlayer2);
+            var incompleteRow = new LeagueRow(2);
+            incompleteRow.Add(existingPlayer2);
+
+            var rows = new List<LeagueRow> { fullRow, incompleteRow };
+            var league = new League(rows);
 
             const string newPlayer = "newPlayer";
             league.AddPlayer(newPlayer);
@@ -161,19 +181,31 @@ namespace TableTennisTable_Tests
 
         [DataRow("player1")]
         [DataRow("player2")]
-        [DataRow("player3")]
-        [DataRow("player4")]
         [DataTestMethod]
         public void LeagueWithPlayers_AddPlayerWithNonUniqueName_ExceptionThrown(string nonUniquePlayerName)
         {
-            var league = new League();
-            var existingPlayers = new[] { "player1", "player2", "player3", "player4" };
-            foreach (var existingPlayer in existingPlayers)
-            {
-                league.AddPlayer(existingPlayer);
-            }
+            const string existingPlayer1 = "player1";
+            var row1 = new LeagueRow(1);
+            row1.Add(existingPlayer1);
+
+            const string existingPlayer2 = "player2";
+            var row2 = new LeagueRow(2);
+            row2.Add(existingPlayer2);
+
+            var rows = new List<LeagueRow> { row1, row2 };
+            var league = new League(rows);
 
             Assert.ThrowsException<ArgumentException>(() => league.AddPlayer(nonUniquePlayerName));
+        }
+
+        [TestMethod]
+        public void NewLeague_GetRows_EmptyCollectionReturned()
+        {
+            var league = new League();
+
+            var returnedRows = league.GetRows();
+
+            CollectionAssert.AreEqual(new List<LeagueRow>(), returnedRows);
         }
 
         [TestMethod]
@@ -208,6 +240,158 @@ namespace TableTennisTable_Tests
             var returnedRows = league.GetRows();
 
             CollectionAssert.AreEqual(new List<LeagueRow>(), returnedRows);
+        }
+
+        [TestMethod]
+        public void NewLeague_RecordWinner_ExceptionThrown()
+        {
+            var league = new League();
+            const string winner = "winner";
+            const string loser = "loser";
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithWinnerOnly_RecordWinner_ExceptionThrown()
+        {
+            const string winner = "winner";
+            const string loser = "loser";
+            var league = new League();
+            league.AddPlayer(winner);
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithLoserOnly_RecordWinner_ExceptionThrown()
+        {
+            const string winner = "winner";
+            const string loser = "loser";
+            var league = new League();
+            league.AddPlayer(loser);
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithWinnerInRowAboveLoser_RecordWinner_ExceptionThrown()
+        {
+            const string winner = "winner";
+            var row1 = new LeagueRow(1);
+            row1.Add(winner);
+
+            const string loser = "loser";
+            var row2 = new LeagueRow(2);
+            row2.Add(loser);
+
+            var league = new League(new List<LeagueRow>{row1, row2});
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithWinnerInSameRowAsLoser_RecordWinner_ExceptionThrown()
+        {
+            const string winner = "winner";
+            const string loser = "loser";
+            var row = new LeagueRow(2);
+            row.Add(winner);
+            row.Add(loser);
+
+            var league = new League(new List<LeagueRow> { row });
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithLoserTwoRowsAboveWinner_RecordWinner_ExceptionThrown()
+        {
+            const string loser = "loser";
+            var row1 = new LeagueRow(1);
+            row1.Add(loser);
+
+            var row2 = new LeagueRow(1);
+
+            const string winner = "winner";
+            var row3 = new LeagueRow(1);
+            row3.Add(winner);
+
+            var league = new League(new List<LeagueRow> { row1, row2, row3 });
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [DataRow(null)]
+        [DataRow("")]
+        [DataTestMethod]
+        public void LeagueWithLoserAboveIncompleteRow_RecordWinnerWithWinnerNameNullOrEmpty_ExceptionThrown(string winner)
+        {
+            const string loser = "loser";
+            var row1 = new LeagueRow(1);
+            row1.Add(loser);
+
+            const string otherPlayer = "otherPlayer";
+            var row2 = new LeagueRow(2);
+            row2.Add(otherPlayer);
+
+            var league = new League(new List<LeagueRow>{row1, row2});
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [DataRow(null)]
+        [DataRow("")]
+        [DataTestMethod]
+        public void LeagueWithWinner_RecordWinnerWithLoserNameNullOrEmpty_ExceptionThrown(string loser)
+        {
+            const string winner = "winner";
+            var row = new LeagueRow(2);
+            row.Add(winner);
+
+            var league = new League(new List<LeagueRow> { row });
+
+            Assert.ThrowsException<ArgumentException>(() => league.RecordWin(winner, loser));
+        }
+
+        [TestMethod]
+        public void LeagueWithWinnerInRowBelowLoser_RecordWinner_WinnerMovedUpARow()
+        {
+            const string loser = "loser";
+            var row1 = new LeagueRow(1);
+            row1.Add(loser);
+
+            const string winner = "winner";
+            var row2 = new LeagueRow(1);
+            row2.Add(winner);
+
+            var league = new League(new List<LeagueRow> { row1, row2 });
+
+            league.RecordWin(winner, loser);
+
+            var firstRow = league.GetRows().First();
+            var firstRowPlayers = firstRow.GetPlayers();
+            CollectionAssert.Contains(firstRowPlayers, winner);
+        }
+
+        [TestMethod]
+        public void LeagueWithWinnerInRowBelowLoser_RecordWinner_LoserMovedDownARow()
+        {
+            const string loser = "loser";
+            var row1 = new LeagueRow(1);
+            row1.Add(loser);
+
+            const string winner = "winner";
+            var row2 = new LeagueRow(1);
+            row2.Add(winner);
+
+            var league = new League(new List<LeagueRow> { row1, row2 });
+
+            league.RecordWin(winner, loser);
+
+            var secondRow = league.GetRows()[1];
+            var secondRowPlayers = secondRow.GetPlayers();
+            CollectionAssert.Contains(secondRowPlayers, loser);
         }
     }
 }
