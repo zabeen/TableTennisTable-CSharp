@@ -393,5 +393,46 @@ namespace TableTennisTable_Tests
             var secondRowPlayers = secondRow.GetPlayers();
             CollectionAssert.Contains(secondRowPlayers, loser);
         }
+
+        [TestMethod]
+        public void NewLeague_GetWinner_ReturnsNull()
+        {
+            var league = new League();
+
+            var winner = league.GetWinner();
+
+            Assert.IsNull(winner);
+        }
+
+        [TestMethod]
+        public void LeagueWithSinglePlayer_GetWinner_ReturnsSinglePlayer()
+        {
+            const string singlePlayer = "singlePlayer";
+            var row = new LeagueRow(1);
+            row.Add(singlePlayer);
+            var league = new League(new List<LeagueRow>{row});
+
+            var winner = league.GetWinner();
+
+            Assert.AreEqual(singlePlayer, winner);
+        }
+
+        [TestMethod]
+        public void LeagueWithMultiplePlayers_GetWinner_ReturnsPlayerFromFirstRow()
+        {
+            const string playerInFirstRow = "playerInFirstRow";
+            var row1 = new LeagueRow(1);
+            row1.Add(playerInFirstRow);
+
+            const string playerInSecondRow = "playerInSecondRow";
+            var row2 = new LeagueRow(2);
+            row2.Add(playerInSecondRow);
+
+            var league = new League(new List<LeagueRow> { row1, row2 });
+
+            var winner = league.GetWinner();
+
+            Assert.AreEqual(playerInFirstRow, winner);
+        }
     }
 }
