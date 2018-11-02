@@ -16,7 +16,7 @@ namespace TableTennisTable_CSharp
 
         public League(List<LeagueRow> rows)
         {
-            _rows = rows;
+            _rows = rows ?? new List<LeagueRow>();
         }
 
         public void AddPlayer(string player)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TableTennisTable_CSharp;
@@ -173,6 +174,40 @@ namespace TableTennisTable_Tests
             }
 
             Assert.ThrowsException<ArgumentException>(() => league.AddPlayer(nonUniquePlayerName));
+        }
+
+        [TestMethod]
+        public void NewLeagueFromProvidedRows_GetRows_ProvidedRowsReturned()
+        {
+            var row1 = new LeagueRow(1);
+            var row2 = new LeagueRow(2);
+            var providedRows = new List<LeagueRow> {row1, row2};
+            var league = new League(providedRows);
+
+            var returnedRows = league.GetRows();
+
+            CollectionAssert.AreEqual(providedRows, returnedRows);
+        }
+
+        [TestMethod]
+        public void NewLeagueFromEmptyCollection_GetRows_EmptyCollectionReturned()
+        {
+            var providedRows = new List<LeagueRow>();
+            var league = new League(providedRows);
+
+            var returnedRows = league.GetRows();
+
+            CollectionAssert.AreEqual(providedRows, returnedRows);
+        }
+
+        [TestMethod]
+        public void NewLeagueFromNull_GetRows_EmptyCollectionReturned()
+        {
+            var league = new League(null);
+
+            var returnedRows = league.GetRows();
+
+            CollectionAssert.AreEqual(new List<LeagueRow>(), returnedRows);
         }
     }
 }
