@@ -7,7 +7,8 @@ namespace TableTennisTable_CSharp
 {
     public class League
     {
-        private List<LeagueRow> _rows;
+        private readonly List<LeagueRow> _rows;
+        private readonly Regex _validNameRegex = new Regex("^\\w+$");
 
         public League() : this(new List<LeagueRow>())
         {
@@ -15,10 +16,8 @@ namespace TableTennisTable_CSharp
 
         public League(List<LeagueRow> rows)
         {
-            _rows = rows;
+            _rows = rows ?? new List<LeagueRow>();
         }
-
-        private Regex _validNameRegex = new Regex("^\\w+$");
 
         public void AddPlayer(string player)
         {
@@ -82,7 +81,7 @@ namespace TableTennisTable_CSharp
 
         private void ValidateName(string player)
         {
-            if (!_validNameRegex.IsMatch(player))
+            if (string.IsNullOrEmpty(player) || !_validNameRegex.IsMatch(player))
             {
                 throw new ArgumentException($"Player name {player} contains invalid");
             }
